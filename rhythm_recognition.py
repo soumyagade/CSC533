@@ -16,7 +16,6 @@ def check_rhythm(list1, list2, threshold):
         return False
 
     for i in range(len(list1)):
-        print(abs((list1[i] - list2[i]) / list1[i]))
         if abs((list1[i] - list2[i]) / list1[i]) > threshold:
             return False
 
