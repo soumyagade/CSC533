@@ -19,9 +19,9 @@ def registerPage(request):
         if form.is_valid():
             # create the user
             form.save()
-            # user = form.cleaned_data.get('username')
+            user = form.cleaned_data.get('username')
             # messages.success(request, 'Account was created for ' + user)
-            return redirect('choose')
+            return redirect('/choose/' + '?username='+user)
 
     context = {'form' : form}
     return render(request, 'django_two_factor_face_auth/register2.html', context)
