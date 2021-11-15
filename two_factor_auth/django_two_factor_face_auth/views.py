@@ -24,6 +24,9 @@ def register(request):
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/register.html', context)
 
+def face_register(request):
+    return render(request, 'django_two_factor_face_auth/register_face.html')
+
 def profile(request):
     return HttpResponse("Welcome to your profile page")
 
