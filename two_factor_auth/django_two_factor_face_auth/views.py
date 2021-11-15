@@ -28,7 +28,17 @@ def register(request):
     return render(request, 'django_two_factor_face_auth/register.html', context)
 
 
+@csrf_exempt
 def register_face(request):
+
+    if request.method == 'POST':
+        face = request.FILES['image']
+        username = "test"
+
+        with open('faces/' + username + '.png', 'wb+') as destination:
+            for chunk in face.chunks():
+                destination.write(chunk)
+
     return render(request, 'django_two_factor_face_auth/register_face.html')
 
 
@@ -39,7 +49,7 @@ def register_rhythm(request):
         print(rhythm_text)
         username = "test"
         if username is not None:
-            f = open(username + '_rhythm.txt', 'w')
+            f = open('rhythms\\' + username + '.txt', 'w')
             f.write(rhythm_text)
             f.close()
             print("file saved!")
