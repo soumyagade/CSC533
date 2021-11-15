@@ -30,11 +30,10 @@ def loginPage(request):
     context = {}
     return render(request, 'django_two_factor_face_auth/login2.html', context)
 
+@csrf_exempt
 def choose(request):
     context = {}
     return render(request, 'django_two_factor_face_auth/choose.html', context)
-
-########################################################################
 
 def register(request):
     if request.method == 'POST':
@@ -111,3 +110,9 @@ def face_login(request):
 
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/login.html', context)
+
+def login_face(request):
+    return render(request, 'django_two_factor_face_auth/login_face.html')
+
+def login_rhythm(request):
+    return render(request, 'django_two_factor_face_auth/login_rhythm.html')
