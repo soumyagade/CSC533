@@ -87,20 +87,33 @@
 					<h3 id="form-title">SIGN UP FOR:</h3>
 				</div>
 				<div class="d-flex justify-content-center form_container">
-
-					<form>
+					<div>
 						<div class="d-flex justify-content-center login_container">
-				 			<button class="btn login_btn"><a href="/register_face">Facial Recognition</a></button>
+				 			<button class="btn login_btn" onclick="face_redirect()">Facial Recognition</button>
 				   		</div>
 				   		<div class="d-flex justify-content-center mt-3 login_container">
-				 			<button class="btn login_btn"><a href="/register_rhythm">Rhythm Recognition</a></button>
+				 			<button class="btn login_btn" onclick="rhythm_redirect()">Rhythm Recognition</button>
 				   		</div>
-					</form>
+					</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
+
+<script>
+	var myUser = location.search.split('username=')[1]
+	var faceLink = "/register_face/?username=" + myUser
+	var rhythmLink = "/register_face/?username=" + myUser
+
+	function face_redirect(){
+		window.location.href = faceLink;
+	}
+
+	function rhythm_redirect(){
+		window.location.replace(rhythmLink);
+	}
+</script>
 
 </html>
