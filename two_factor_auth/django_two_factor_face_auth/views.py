@@ -1,14 +1,40 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.conf import settings
-from .forms import UserCreationForm, AuthenticationForm, RegisterRhythm
+from .forms import UserCreationForm, AuthenticationForm, RegisterRhythm, CreateUserForm
 from .authenticate import FaceIdAuthBackend
 from .utils import prepare_image
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 import io
 
+########################################################################
+
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            # create the user
+            form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
+            return redirect('choose')
+
+    context = {'form' : form}
+    return render(request, 'django_two_factor_face_auth/register2.html', context)
+
+def loginPage(request):
+    context = {}
+    return render(request, 'django_two_factor_face_auth/login2.html', context)
+
+def choose(request):
+    context = {}
+    return render(request, 'django_two_factor_face_auth/choose.html', context)
+
+########################################################################
 
 def register(request):
     if request.method == 'POST':

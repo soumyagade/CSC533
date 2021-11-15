@@ -19,6 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('login2/', views.loginPage, name="login2"),
+    path('register2/', views.registerPage, name="register2"),
+    path('choose/', views.choose, name="choose"),
     path('accounts/register/', views.register, name='register'),
     path('accounts/register_face/', views.register_face, name='register_face'),
     path('accounts/register_rhythm/', views.register_rhythm, name='register_rhythm'),
