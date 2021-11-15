@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from .models import UserProfile
 import io
 
 ########################################################################
@@ -18,9 +19,10 @@ def registerPage(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             # create the user
-            form.save()
+            user = form.save()
             # user = form.cleaned_data.get('username')
             # messages.success(request, 'Account was created for ' + user)
+            UserProfile.objects.create(user=user, home_address="7217 Starcross Ct")
             return redirect('choose')
 
     context = {'form' : form}
@@ -29,6 +31,8 @@ def registerPage(request):
 def loginPage(request):
     context = {}
     return render(request, 'django_two_factor_face_auth/login2.html', context)
+
+########################################################################
 
 @csrf_exempt
 def choose(request):
