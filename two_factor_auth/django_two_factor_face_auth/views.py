@@ -61,6 +61,8 @@ def register_rhythm(request):
 def profile(request):
     return HttpResponse("Welcome to your profile page")
 
+def home(request):
+    return render(request, 'django_two_factor_face_auth/homepage.html')
 
 def face_login(request):
     if request.method == 'POST':

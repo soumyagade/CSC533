@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/register_face/', views.register_face, name='register_face'),
     path('accounts/register_rhythm/', views.register_rhythm, name='register_rhythm'),
     path('accounts/profile/', views.profile, name='profile'),
+    path('accounts/home/', views.home, name='home'),
     path('accounts/login/', views.face_login, name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
