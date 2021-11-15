@@ -34,6 +34,8 @@
     var down_end = start
     var down_start = start
 
+    var myUser = location.search.split('username=')[1]
+
     function on_mouse_down(id) {
       document.getElementById("rhythm-button").style.background = "radial-gradient(#A9C4C6, #DCFBFD)"
       down_start = new Date();
@@ -56,9 +58,10 @@
     }
 
     function submit(id) {
-      $.post('/accounts/register_rhythm/',
+      $.post('/register_rhythm/',
       {
-        'rhythm_string': document.getElementById("rhythm_string").innerHTML
+        'rhythm_string': document.getElementById("rhythm_string").innerHTML,
+        'username': myUser
       }
       );
 
