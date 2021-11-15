@@ -84,14 +84,20 @@ body {background-color: #7abecc;}
     }
 
     function submit(id) {
-      $.post('/accounts/register_rhythm/',
-      {
-        'rhythm_string': document.getElementById("rhythm_string").innerHTML
-      }
-      );
+      if( document.getElementById("rhythm_string").innerHTML != "[]" ) {
+        var request = new XMLHttpRequest();
+        request.open( "POST", "/register_rhythm/", true );
+        var data = new FormData();
 
-      //redirect
-      window.location.replace("/accounts/home/");
+        data.append( "rhythm_string", document.getElementById("rhythm_string").innerHTML);
+        var myUser = location.search.split('username=')[1]
+        data.append( "username", myUser);
+
+        request.send( data );
+
+        //redirect
+        window.location.replace("/accounts/home/");
+      }
     }
   </script>
 
