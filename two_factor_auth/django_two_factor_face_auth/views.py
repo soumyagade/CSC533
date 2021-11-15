@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from .models import UserProfile
+from django.contrib.auth.models import User
 import io
 
 ########################################################################
@@ -31,6 +32,15 @@ def registerPage(request):
 def loginPage(request):
     context = {}
     return render(request, 'django_two_factor_face_auth/login2.html', context)
+
+@csrf_exempt
+def registerFacePage(request):
+    if request.method == 'POST':
+        face = request.FILES['image']
+        username = request.POST['username']
+        uid = User.objects.get(username=username)
+        UserProfile.objects.filter(user=uid).update(image=face)
+    return render(request, 'django_two_factor_face_auth/register_face.html')
 
 ########################################################################
 
