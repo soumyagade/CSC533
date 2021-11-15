@@ -59,7 +59,6 @@ def register(request):
 
 @csrf_exempt
 def register_face(request):
-
     if request.method == 'POST':
         face = request.FILES['image']
         username = request.POST['username']
@@ -93,6 +92,7 @@ def profile(request):
 def home(request):
     return render(request, 'django_two_factor_face_auth/homepage.html')
 
+@csrf_exempt
 def face_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
@@ -115,8 +115,22 @@ def face_login(request):
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/login.html', context)
 
+@csrf_exempt
 def login_face(request):
+    if request.method == 'POST':
+        face = request.FILES['image']
+        username = request.POST['username']
+        compare_face = False
+        if username != "undefined" and username != "":
+            # TODO: Add logic to actually compare the faces here
+            compare_face = True
+        print("USERNAME: " + username)
+        if compare_face:
+            return HttpResponse("SUCCESS")
+        else:
+            return HttpResponse("Failure")
     return render(request, 'django_two_factor_face_auth/login_face.html')
 
+@csrf_exempt
 def login_rhythm(request):
     return render(request, 'django_two_factor_face_auth/login_rhythm.html')

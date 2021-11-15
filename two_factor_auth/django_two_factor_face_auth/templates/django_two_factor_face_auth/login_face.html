@@ -138,7 +138,7 @@ function submitSnapshot() {
   if( snapshot.firstChild.getAttribute( "src" ) != null ) {
       var request = new XMLHttpRequest();
 
-      request.open( "POST", "/accounts/register_face/", true );
+      request.open( "POST", "/login_face/", true );
 
       var data	= new FormData();
       var dataURI	= snapshot.firstChild.getAttribute( "src" );
@@ -146,10 +146,27 @@ function submitSnapshot() {
 
       data.append( "image", imageData, "myimage" );
 
+      var myUser = location.search.split('username=')[1]
+
+      data.append( "username", myUser);
+
+      request.onload = function () {
+        if (request.readyState === request.DONE) {
+          if (request.responseText === "SUCCESS"){
+            alert("Logged in Successfully")
+            window.location.replace("/accounts/home/");
+          }
+          else{
+            alert("Picture does not Match")
+            window.location.replace(location.search);
+          }
+        }
+      };
+
       request.send( data );
 
       //redirect
-      window.location.replace("/accounts/home/");
+      //window.location.replace("/accounts/home/");
   }
 }
 </script>
