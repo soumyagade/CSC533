@@ -63,10 +63,10 @@ def register_face(request):
     if request.method == 'POST':
         face = request.FILES['image']
         username = request.POST['username']
-
-        with open('faces/' + username + '.png', 'wb+') as destination:
-            for chunk in face.chunks():
-                destination.write(chunk)
+        if username != "":
+            with open('faces/' + username + '.png', 'wb+') as destination:
+                for chunk in face.chunks():
+                    destination.write(chunk)
 
     return render(request, 'django_two_factor_face_auth/register_face.html')
 
@@ -77,7 +77,7 @@ def register_rhythm(request):
         rhythm_text = request.POST['rhythm_string']
         print(rhythm_text)
         username = request.POST['username']
-        if username is not None:
+        if username is not None and username != "":
             f = open('rhythms\\' + username + '.txt', 'w')
             f.write(rhythm_text)
             f.close()
