@@ -27,12 +27,17 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
+    alert("test")
+
     var rhythm = []
     var start = new Date();
     var up_end = start
     var up_start = start
     var down_end = start
     var down_start = start
+
+    var myUser = location.search.split('username=')[1]
+
 
     function on_mouse_down(id) {
       document.getElementById("rhythm-button").style.background = "radial-gradient(#A9C4C6, #DCFBFD)"
@@ -56,9 +61,10 @@
     }
 
     function submit(id) {
-      $.post('/accounts/register_rhythm/',
+      $.post('/register_rhythm/',
       {
-        'rhythm_string': document.getElementById("rhythm_string").innerHTML
+        'rhythm_string': document.getElementById("rhythm_string").innerHTML,
+        'username': myUser
       }
       );
 

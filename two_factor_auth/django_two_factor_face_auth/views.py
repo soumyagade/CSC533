@@ -133,4 +133,16 @@ def login_face(request):
 
 @csrf_exempt
 def login_rhythm(request):
+    if request.method == 'POST':
+        face = request.FILES['image']
+        username = request.POST['username']
+        compare_face = False
+        if username != "undefined" and username != "":
+            # TODO: Add logic to actually compare the faces here
+            compare_face = True
+        print("USERNAME: " + username)
+        if compare_face:
+            return HttpResponse("SUCCESS")
+        else:
+            return HttpResponse("Failure")
     return render(request, 'django_two_factor_face_auth/login_rhythm.html')
