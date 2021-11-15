@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <style>
+body {background-color: #7abecc;}
 .button {
   background: radial-gradient(#DCFBFD 45%, #F0F0F0);
   border: solid 10px black
@@ -8,23 +10,49 @@
   border-radius: 50%;
   height: 200px;
   width: 200px;
+  margin: 0 auto;
 }
+.user_card {
+      width: 530px;
+      margin: 0 auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      background: #74cfbf;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 5px;
+      align-self: center;
+
+    }
+
 
 </style>
 
 <html>
 
 <body style="text-align:center">
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="user_card">
 
-  <p>Tap out your rhythm using the circle below. Once you are done, click 'Submit Rhythm' below.</p>
-  <button id="rhythm-button" onmouseup="on_mouse_up(this)" onmousedown="on_mouse_down(this)" class="button"> CLICK ME!</button>
+  <p><b>Tap out your rhythm using the circle below. Once you are done, click 'Submit Rhythm' below.</b></p>
+  <button id="rhythm-button" onmouseup="on_mouse_up(this)" onmousedown="on_mouse_down(this)" class="button"> <b>CLICK ME!</b></button>
 
   <br>
   <text id="rhythm_string" style='color:white;'>[]</text>
   <br>
-  <button name="submit" onclick="submit(this)">Submit Rhythm</button>
+  <button name="submit" onclick="submit(this)" class="btn btn-primary">Submit Rhythm</button>
 
-
+  <br>
+  <br>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
     var rhythm = []
@@ -33,8 +61,6 @@
     var up_start = start
     var down_end = start
     var down_start = start
-
-    var myUser = location.search.split('username=')[1]
 
     function on_mouse_down(id) {
       document.getElementById("rhythm-button").style.background = "radial-gradient(#A9C4C6, #DCFBFD)"
@@ -58,10 +84,9 @@
     }
 
     function submit(id) {
-      $.post('/register_rhythm/',
+      $.post('/accounts/register_rhythm/',
       {
-        'rhythm_string': document.getElementById("rhythm_string").innerHTML,
-        'username': myUser
+        'rhythm_string': document.getElementById("rhythm_string").innerHTML
       }
       );
 

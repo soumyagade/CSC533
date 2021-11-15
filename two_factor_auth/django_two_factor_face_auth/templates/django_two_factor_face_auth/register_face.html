@@ -3,8 +3,9 @@
 (https://html5.tutorials24x7.com/blog/how-to-capture-image-from-camera) -->
 
 <!-- The captured image should be contained in the 'snapshot' varaiable -->
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
+body {background-color: #7abecc;}
 body,
     html {
       margin: 0;
@@ -29,9 +30,27 @@ body,
 
 #snapshot {
   display: inline-block;
-  width: 320px;
+  width: 350px;
   height: 240px;
 }
+.user_card {
+      width: 400px;
+      margin: 0 auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      background: #74cfbf;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 5px;
+      align-self: center;
+
+    }
 </style>
 
 <html>
@@ -44,9 +63,13 @@ body,
 <body style="text-align:center">
 <br>
 <br>
+<br>
+<br>
+<div class="container h-100">
 <!-- Video Element & Canvas -->
-  Please take a picture of yourself. Make sure your face is centered in the frame,
-  and that the view of your face is clear and unobstructed.
+<div class="user_card">
+  <b>Please take a picture of yourself. Make sure your face is centered in the frame,
+  and that the view of your face is clear and unobstructed.<b>
   <br>
   <br>
 
@@ -55,7 +78,7 @@ body,
   <br>
   <br>
 
-  <button id="btn-capture" type="button" class="button">Capture Image</button>
+  <button id="btn-capture" type="button" class="btn btn-primary">Capture Image</button>
 
   <br>
   <br>
@@ -65,7 +88,7 @@ body,
 
   <br>
 
-  <button id="btn-submit" type="button" class="button">Submit Image</button>
+  <button id="btn-submit" type="button" class="btn btn-primary">Submit Image</button>
 
 </body>
 
@@ -150,17 +173,13 @@ function submitSnapshot() {
   if( snapshot.firstChild.getAttribute( "src" ) != null ) {
       var request = new XMLHttpRequest();
 
-      request.open( "POST", "/register_face/", true );
+      request.open( "POST", "/accounts/register_face/", true );
 
       var data	= new FormData();
       var dataURI	= snapshot.firstChild.getAttribute( "src" );
       var imageData   = dataURItoBlob( dataURI );
 
       data.append( "image", imageData, "myimage" );
-
-      var myUser = location.search.split('username=')[1]
-
-      data.append( "username", myUser);
 
       request.send( data );
 
