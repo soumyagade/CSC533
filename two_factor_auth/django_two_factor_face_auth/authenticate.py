@@ -18,10 +18,6 @@ class FaceIdAuthBackend(ModelBackend):
         face1 = face_recognition.load_image_file(face_id)
         face2 = face_recognition.load_image_file(uploaded_face_id)
 
-        face_locations = face_recognition.face_locations(uploaded_image)
-        if len(face_locations) == 0:
-            return False
-
         print(len(face_recognition.face_encodings(face1)))
         print(len(face_recognition.face_encodings(face2)))
 
