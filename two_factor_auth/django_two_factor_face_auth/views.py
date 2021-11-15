@@ -134,7 +134,7 @@ def login_face(request):
 @csrf_exempt
 def login_rhythm(request):
     if request.method == 'POST':
-        face = request.FILES['image']
+        rhythm_string = request.POST['rhythm_string']
         username = request.POST['username']
         compare_face = False
         if username != "undefined" and username != "":

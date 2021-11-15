@@ -56,8 +56,6 @@ body {background-color: #7abecc;}
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    alert("test")
-
     var rhythm = []
     var start = new Date();
     var up_end = start
@@ -90,15 +88,18 @@ body {background-color: #7abecc;}
     }
 
     function submit(id) {
-      $.post('/register_rhythm/',
+      $.post('/login_rhythm/',
       {
         'rhythm_string': document.getElementById("rhythm_string").innerHTML,
         'username': myUser
-      }
-      );
+      },
+      ).done(function(data) {
+        var content = $( data ).find( "#content" );
+        alert( data.text );
+      });
 
       //redirect
-      window.location.replace("/accounts/home/");
+      //window.location.replace("/accounts/home/");
     }
   </script>
 

@@ -173,7 +173,7 @@ function submitSnapshot() {
   if( snapshot.firstChild.getAttribute( "src" ) != null ) {
       var request = new XMLHttpRequest();
 
-      request.open( "POST", "/accounts/register_face/", true );
+      request.open( "POST", "/register_face/", true );
 
       var data	= new FormData();
       var dataURI	= snapshot.firstChild.getAttribute( "src" );
