@@ -12,6 +12,7 @@ class UserFaceImage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=content_file_name, blank=False)
 
-class Customer(models.Model):
-    name = models.CharField(max_length=200, null=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    home_address = models.TextField(null=True)
     image = models.ImageField(null=True, blank=True)
