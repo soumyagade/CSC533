@@ -14,13 +14,18 @@
 
 <html>
 
-<body>
+<body style="text-align:center">
 
-  <p>Tap out your rhythm using the circle below. The resulting array will be displayed underneath the circle</p>
+  <p>Tap out your rhythm using the circle below. Once you are done, click 'Submit Rhythm' below.</p>
   <button id="rhythm-button" onmouseup="on_mouse_up(this)" onmousedown="on_mouse_down(this)" class="button"> CLICK ME!</button>
 
-  <p id="text"></p>
+  <br>
+  <text id="rhythm_string" style='color:white;'>[]</text>
+  <br>
+  <button name="submit" onclick="submit(this)">Submit Rhythm</button>
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
     var rhythm = []
     var start = new Date();
@@ -47,7 +52,18 @@
       if (down_start != start){
         rhythm.push(down_end-down_start)
       }
-      document.getElementById("text").innerHTML = "[" + rhythm.toString() +"]"
+      document.getElementById("rhythm_string").innerHTML = "[" + rhythm.toString() +"]"
+    }
+
+    function submit(id) {
+      $.post('/accounts/register_rhythm/',
+      {
+        'rhythm_string': document.getElementById("rhythm_string").innerHTML
+      }
+      );
+
+      //redirect
+      window.location.replace("/accounts/home/");
     }
   </script>
 

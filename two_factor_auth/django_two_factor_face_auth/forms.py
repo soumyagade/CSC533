@@ -21,5 +21,10 @@ class UserCreationForm(UserCreationForm):
         face_image.save()
         return user
 
+
 class AuthenticationForm(AuthenticationForm):
     image = forms.CharField(widget=forms.HiddenInput())
+
+
+class RegisterRhythm(forms.Form):
+    rhythm_string = forms.CharField(label='rhythm_string')
