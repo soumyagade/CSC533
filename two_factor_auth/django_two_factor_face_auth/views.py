@@ -7,8 +7,9 @@ from .utils import prepare_image
 from django.template import RequestContext
 from django.http import HttpResponse
 
+
 def register(request):
-    if  request.method == 'POST':
+    if request.method == 'POST':
         form = UserCreationForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -17,18 +18,25 @@ def register(request):
             password = form.cleaned_data['password2']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect(settings.LOGIN_REDIRECT_URL)
+            return redirect('/accounts/register_face/')
     else:
         form = UserCreationForm()
 
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/register.html', context)
 
+
 def register_face(request):
     return render(request, 'django_two_factor_face_auth/register_face.html')
 
+
+def register_rhythm(request):
+    return render(request, 'django_two_factor_face_auth/register_rhythm.html')
+
+
 def profile(request):
     return HttpResponse("Welcome to your profile page")
+
 
 def face_login(request):
     if request.method == 'POST':

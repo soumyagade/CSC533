@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<style>
+.button {
+  background: radial-gradient(#DCFBFD 45%, #F0F0F0);
+  border: solid 10px black
+  display: inline-block;
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+
+</style>
+
+<html>
+
+<body>
+
+  <p>Tap out your rhythm using the circle below. The resulting array will be displayed underneath the circle</p>
+  <button id="rhythm-button" onmouseup="on_mouse_up(this)" onmousedown="on_mouse_down(this)" class="button"> CLICK ME!</button>
+
+  <p id="text"></p>
+
+  <script>
+    var rhythm = []
+    var start = new Date();
+    var up_end = start
+    var up_start = start
+    var down_end = start
+    var down_start = start
+
+    function on_mouse_down(id) {
+      document.getElementById("rhythm-button").style.background = "radial-gradient(#A9C4C6, #DCFBFD)"
+      down_start = new Date();
+      up_end = new Date();
+
+      if (up_start != start){
+        rhythm.push(up_end-up_start)
+      }
+    }
+
+    function on_mouse_up(id) {
+      document.getElementById("rhythm-button").style.background = "radial-gradient(#DCFBFD 45%, #F0F0F0)"
+      up_start = new Date();
+      down_end = new Date()
+
+      if (down_start != start){
+        rhythm.push(down_end-down_start)
+      }
+      document.getElementById("text").innerHTML = "[" + rhythm.toString() +"]"
+    }
+  </script>
+
+</body>
+
+</html>
+

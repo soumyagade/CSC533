@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('accounts/register/', views.register, name='register'),
     path('accounts/register_face/', views.register_face, name='register_face'),
+    path('accounts/register_rhythm/', views.register_rhythm, name='register_rhythm'),
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/login/', views.face_login, name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
