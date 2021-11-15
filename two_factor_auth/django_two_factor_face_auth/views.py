@@ -58,7 +58,7 @@ def register_face(request):
 
     if request.method == 'POST':
         face = request.FILES['image']
-        username = "test"
+        username = request.POST['username']
 
         with open('faces/' + username + '.png', 'wb+') as destination:
             for chunk in face.chunks():
@@ -72,7 +72,7 @@ def register_rhythm(request):
     if request.method == 'POST':
         rhythm_text = request.POST['rhythm_string']
         print(rhythm_text)
-        username = "test"
+        username = request.POST['username']
         if username is not None:
             f = open('rhythms\\' + username + '.txt', 'w')
             f.write(rhythm_text)
