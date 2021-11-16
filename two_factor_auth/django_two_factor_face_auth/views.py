@@ -51,16 +51,18 @@ def registerFacePage(request):
 def login_face(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        print("USERNAME: " + username)
+        # print("USERNAME: " + username)
         password = request.POST.get('password')
-        print("PASSWORD: " + password)
+        # print("PASSWORD: " + password)
         face_image = request.FILES['image']
         face_id = FaceIdAuthBackend()
         user = face_id.authenticate(username=username, password=password, face_id=face_image)
         if user is not None:
-            print("FOUND A USER")
+            # print("FOUND A USER")
             login(request, user)
-            return redirect('/accounts/home')
+            return HttpResponse("SUCCESS")
+        else:
+            return HttpResponse("FAILURE")
 
         # username = request.POST['username']
         # compare_face = False
@@ -78,9 +80,9 @@ def login_face(request):
 def face_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        print("USERNAME: " + username)
+        # print("USERNAME: " + username)
         password = request.POST.get('password')
-        print("PASSWORD: " + password)
+        # print("PASSWORD: " + password)
         face_image = request.FILES['image']
         face_id = FaceIdAuthBackend()
         user = face_id.authenticate(username=username, password=password, face_id=face_image)
@@ -151,23 +153,6 @@ def home(request):
     return render(request, 'django_two_factor_face_auth/homepage.html')
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/login.html', context)
-
-@csrf_exempt
-def login_face(request):
-    if request.method == 'POST':
-        face = request.FILES['image']
-        username = request.POST['username']
-        compare_face = False
-        if username != "undefined" and username != "":
-            # TODO: Add logic to actually compare the faces here
-            compare_face = True
-        print("USERNAME: " + username)
-
-        if compare_face:
-            return HttpResponse("SUCCESS")
-        else:
-            return HttpResponse("FAILURE")
-    return render(request, 'django_two_factor_face_auth/login_face.html')
 
 
 def check_rhythm(list1, list2, threshold):
