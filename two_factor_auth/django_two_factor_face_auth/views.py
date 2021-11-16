@@ -138,7 +138,7 @@ def login_face(request):
         if compare_face:
             return HttpResponse("SUCCESS")
         else:
-            return HttpResponse("Failure")
+            return HttpResponse("FAILURE")
     return render(request, 'django_two_factor_face_auth/login_face.html')
 
 @csrf_exempt
