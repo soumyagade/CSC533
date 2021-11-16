@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from .models import UserProfile
 from django.contrib.auth.backends import ModelBackend
 import face_recognition
 
@@ -6,7 +7,9 @@ class FaceIdAuthBackend(ModelBackend):
     def authenticate(self, username=None, password=None, face_id=None, **kwargs):
         try:
             user = User.objects.get(username=username)
-            if user.check_password(password) and self.check_face_id(face_id=user.userfaceimage.image,
+            print("HELLOOOOO")
+            image = UserProfile.objects.filter(user=user).values_list('image')
+            if user.check_password(password) and self.check_face_id(face_id=image,
                                                                     uploaded_face_id=face_id):
                 return user
         except User.DoesNotExist:

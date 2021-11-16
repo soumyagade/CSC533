@@ -46,6 +46,56 @@ def registerFacePage(request):
 ########################################################################
 
 @csrf_exempt
+def login_face(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        print("USERNAME: " + username)
+        password = request.POST.get('password')
+        print("PASSWORD: " + password)
+        face_image = request.FILES['image']
+        face_id = FaceIdAuthBackend()
+        user = face_id.authenticate(username=username, password=password, face_id=face_image)
+        if user is not None:
+            print("FOUND A USER")
+            login(request, user)
+            return redirect('/accounts/home')
+
+        # username = request.POST['username']
+        # compare_face = False
+        # if username != "undefined" and username != "":
+            # TODO: Add logic to actually compare the faces here
+            # compare_face = True
+        # if compare_face:
+            # return HttpResponse("SUCCESS")
+        # else:
+            # return HttpResponse("FAILURE")
+    context = {}
+    return render(request, 'django_two_factor_face_auth/login_face.html', context)
+
+@csrf_exempt
+def face_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            face_image = prepare_image(form.cleaned_data['image'])
+
+            face_id = FaceIdAuthBackend()
+            user = face_id.authenticate(username=username, password=password, face_id=face_image)
+            if user is not None:
+                login(request, user)
+                return redirect(settings.LOGIN_REDIRECT_URL)
+            else:
+                form.add_error(None, "Username, password or face id didn't match.")
+    else:
+        form = AuthenticationForm()
+
+    context = {'form': form}
+    return render(request, 'django_two_factor_face_auth/login.html', context)
+
+@csrf_exempt
 def choose(request):
     context = {}
     return render(request, 'django_two_factor_face_auth/choose.html', context)
@@ -102,27 +152,6 @@ def profile(request):
 
 def home(request):
     return render(request, 'django_two_factor_face_auth/homepage.html')
-
-@csrf_exempt
-def face_login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            face_image = prepare_image(form.cleaned_data['image'])
-
-            face_id = FaceIdAuthBackend()
-            user = face_id.authenticate(username=username, password=password, face_id=face_image)
-            if user is not None:
-                login(request, user)
-                return redirect(settings.LOGIN_REDIRECT_URL)
-            else:
-                form.add_error(None, "Username, password or face id didn't match.")
-    else:
-        form = AuthenticationForm()
-
     context = {'form': form}
     return render(request, 'django_two_factor_face_auth/login.html', context)
 
