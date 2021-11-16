@@ -192,10 +192,27 @@ function submitSnapshot() {
 
       data.append( "image", imageData, "myimage" );
 
+      var myUser = location.search.split('username=')[1]
+
+      data.append( "username", myUser);
+
+      request.onload = function () {
+        if (request.readyState === request.DONE) {
+          if (request.responseText === "SUCCESS"){
+            alert("Logged in Successfully")
+            window.location.replace("/accounts/home/");
+          }
+          else{
+            alert("Picture does not Match")
+            window.location.replace(location.search);
+          }
+        }
+      };
+
       request.send( data );
 
-      //redirect
-      window.location.replace("/accounts/home/");
+      // redirect
+      // window.location.replace("/accounts/home/");
   }
 }
 </script>

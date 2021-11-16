@@ -63,8 +63,6 @@ body {background-color: #7abecc;}
     var down_end = start
     var down_start = start
 
-    var myUser = location.search.split('username=')[1]
-
 
     function on_mouse_down(id) {
       document.getElementById("rhythm-button").style.background = "radial-gradient(#A9C4C6, #DCFBFD)"
@@ -88,18 +86,33 @@ body {background-color: #7abecc;}
     }
 
     function submit(id) {
-      $.post('/login_rhythm/',
-      {
-        'rhythm_string': document.getElementById("rhythm_string").innerHTML,
-        'username': myUser
-      },
-      ).done(function(data) {
-        var content = $( data ).find( "#content" );
-        alert( data.text );
-      });
+      if( document.getElementById("rhythm_string").innerHTML != "[]" ) {
+        var request = new XMLHttpRequest();
+        request.open( "POST", "/login_rhythm/", true );
+        var data = new FormData();
 
-      //redirect
-      //window.location.replace("/accounts/home/");
+        data.append( "rhythm_string", document.getElementById("rhythm_string").innerHTML);
+        var myUser = location.search.split('username=')[1]
+        data.append( "username", myUser);
+
+        request.onload = function () {
+          if (request.readyState === request.DONE) {
+            if (request.responseText === "SUCCESS"){
+              alert("Logged in Successfully")
+              window.location.replace("/accounts/home/");
+            }
+            else{
+              alert("Rhythm does not Match")
+              window.location.replace(location.search);
+            }
+          }
+        };
+
+        request.send( data );
+
+        // redirect
+        // window.location.replace("/accounts/home/");
+      }
     }
   </script>
 
