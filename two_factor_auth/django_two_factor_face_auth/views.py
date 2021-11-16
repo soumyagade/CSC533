@@ -173,7 +173,9 @@ def login_rhythm(request):
         password = request.POST['password']
         compare_rhythm = False
 
-        if username != "undefined" and username != "" and password != "":
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
             if exists("rhythms/" + username + ".txt"):
                 f = open("rhythms/" + username + ".txt")
                 old_rhythm = list(map(int, f.read()[1:-1].split(',')))
