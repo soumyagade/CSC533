@@ -40,7 +40,8 @@ body {background-color: #7abecc;}
   <br>
   <br>
   <div class="user_card">
-
+  <label for="username">Username:  </label> <input type="text" id="username" name="user"><br>
+  <label for="password">Password:  </label> <input type="text" id="password" name="pass"><br>
   <p><b>Tap out your rhythm using the circle below. Once you are done, click 'Submit Rhythm' below.<b></p>
   <button id="rhythm-button" onmouseup="on_mouse_up(this)" onmousedown="on_mouse_down(this)" class="button"> <b>CLICK ME!<b></button>
 
@@ -92,8 +93,9 @@ body {background-color: #7abecc;}
         var data = new FormData();
 
         data.append( "rhythm_string", document.getElementById("rhythm_string").innerHTML);
-        var myUser = location.search.split('username=')[1]
-        data.append( "username", myUser);
+
+        data.append( "username", document.getElementById( "username" ).value);
+        data.append( "password", document.getElementById( "password" ).value);
 
         request.onload = function () {
           if (request.readyState === request.DONE) {
@@ -102,7 +104,7 @@ body {background-color: #7abecc;}
               window.location.replace("/accounts/home/");
             }
             else{
-              alert("Rhythm does not Match")
+              alert("Log-in Failed")
               window.location.replace(location.search);
             }
           }

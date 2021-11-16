@@ -77,6 +77,8 @@ html {
 <div class="container h-100">
 <!-- Video Element & Canvas -->
 <div class="user_card">
+  <label for="username">Username:  </label> <input type="text" id="username" name="user"><br>
+  <label for="password">Password:  </label> <input type="text" id="password" name="pass"><br>
   <b>Please take a picture of yourself. Please make sure that your face is centered in the frame,
   and that the view of your face is clear and unobstructed.<b>
   <br>
@@ -184,7 +186,7 @@ function submitSnapshot() {
   if( snapshot.firstChild.getAttribute( "src" ) != null ) {
       var request = new XMLHttpRequest();
 
-      request.open( "POST", "/accounts/register_face/", true );
+      request.open( "POST", "/login_face/", true );
 
       var data	= new FormData();
       var dataURI	= snapshot.firstChild.getAttribute( "src" );
@@ -192,9 +194,8 @@ function submitSnapshot() {
 
       data.append( "image", imageData, "myimage" );
 
-      var myUser = location.search.split('username=')[1]
-
-      data.append( "username", myUser);
+      data.append( "username", document.getElementById( "username" ).value);
+      data.append( "password", document.getElementById( "password" ).value);
 
       request.onload = function () {
         if (request.readyState === request.DONE) {
@@ -203,7 +204,7 @@ function submitSnapshot() {
             window.location.replace("/accounts/home/");
           }
           else{
-            alert("Picture does not Match")
+            alert("Log-in Failed")
             window.location.replace(location.search);
           }
         }
