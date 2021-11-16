@@ -137,7 +137,7 @@ def register_rhythm(request):
         print(rhythm_text)
         username = request.POST['username']
         if username is not None and username != "":
-            f = open('rhythms\\' + username + '.txt', 'w')
+            f = open('rhythms/' + username + '.txt', 'w')
             f.write(rhythm_text)
             f.close()
             print("file saved!")
