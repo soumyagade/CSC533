@@ -11,6 +11,7 @@ from django.contrib import messages
 from .models import UserProfile
 from django.contrib.auth.models import User
 import io
+from os.path import exists
 
 ########################################################################
 
@@ -135,24 +136,58 @@ def login_face(request):
             # TODO: Add logic to actually compare the faces here
             compare_face = True
         print("USERNAME: " + username)
+
         if compare_face:
             return HttpResponse("SUCCESS")
         else:
             return HttpResponse("FAILURE")
     return render(request, 'django_two_factor_face_auth/login_face.html')
 
+
+def check_rhythm(list1, list2, threshold):
+    """
+    Checks if 2 different rhythms match. Rhythms should be passed as a list of integers, where each integer
+    represents the time in ms a button was held down or the gaps between presses.
+    e.g [500, 1000, 500] would indicate the button was pressed for half a second, then the user waited for 1 second,
+    then it was pressed for half a second again.
+
+    :param list1: A rhythm represented in a python list
+    :param list2: A different rhythm
+    :param threshold: The maximum percent difference that can exist between two parts of a rhythm
+    :return: True if the rhythms match, false otherwise
+    """
+    if len(list1) != len(list2):
+        return False
+
+    for i in range(len(list1)):
+        if abs((list1[i] - list2[i]) / list1[i]) > threshold and abs(list1[i] - list2[i]) > 50:
+            return False
+
+    return True
+
 @csrf_exempt
 def login_rhythm(request):
     if request.method == 'POST':
         rhythm_string = request.POST['rhythm_string']
         username = request.POST['username']
-        compare_face = False
-        if username != "undefined" and username != "":
-            # TODO: Add logic to actually compare the faces here
-            compare_face = True
+        password = request.POST['password']
+        compare_rhythm = False
+
+        if username != "undefined" and username != "" and password != "":
+            if exists("rhythms/" + username + ".txt"):
+                f = open("rhythms/" + username + ".txt")
+                old_rhythm = list(map(int, f.read()[1:-1].split(',')))
+                new_rhythm = list(map(int, rhythm_string[1:-1].split(',')))
+
+                f.close()
+
+                compare_rhythm = check_rhythm(old_rhythm, new_rhythm, .5)
+
         print("USERNAME: " + username)
-        if compare_face:
+        if compare_rhythm:
             return HttpResponse("SUCCESS")
         else:
-            return HttpResponse("Failure")
+            return HttpResponse("FAILURE")
     return render(request, 'django_two_factor_face_auth/login_rhythm.html')
+
+
