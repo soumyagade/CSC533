@@ -10,7 +10,7 @@ def content_file_name(instance, filename):
 
 class UserFaceImage(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=content_file_name, blank=False)
+    image = models.ImageField(null=True, blank=True)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)

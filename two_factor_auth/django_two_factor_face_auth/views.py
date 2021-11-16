@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
-from .models import UserProfile
+from .models import UserProfile, UserFaceImage
 from django.contrib.auth.models import User
 import io
 from os.path import exists
@@ -40,7 +40,9 @@ def registerFacePage(request):
         face = request.FILES['image']
         username = request.POST['username']
         uid = User.objects.get(username=username)
-        UserProfile.objects.filter(user=uid).update(image=face)
+        face_image = UserFaceImage(user=uid, image=face)
+        face_image.save()
+        # UserProfile.objects.filter(user=uid).update(image=face)
     return render(request, 'django_two_factor_face_auth/register_face.html')
 
 ########################################################################
@@ -75,24 +77,19 @@ def login_face(request):
 @csrf_exempt
 def face_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, request.POST)
+        username = request.POST.get('username')
+        print("USERNAME: " + username)
+        password = request.POST.get('password')
+        print("PASSWORD: " + password)
+        face_image = request.FILES['image']
+        face_id = FaceIdAuthBackend()
+        user = face_id.authenticate(username=username, password=password, face_id=face_image)
+        if user is not None:
+            print("FOUND A USER")
+            login(request, user)
+            return redirect('/accounts/home')
 
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            face_image = prepare_image(form.cleaned_data['image'])
-
-            face_id = FaceIdAuthBackend()
-            user = face_id.authenticate(username=username, password=password, face_id=face_image)
-            if user is not None:
-                login(request, user)
-                return redirect(settings.LOGIN_REDIRECT_URL)
-            else:
-                form.add_error(None, "Username, password or face id didn't match.")
-    else:
-        form = AuthenticationForm()
-
-    context = {'form': form}
+    context = {}
     return render(request, 'django_two_factor_face_auth/login.html', context)
 
 @csrf_exempt
