@@ -90,13 +90,13 @@ body {background-color: #7abecc;}
         var data = new FormData();
 
         data.append( "rhythm_string", document.getElementById("rhythm_string").innerHTML);
-        var myUser = location.search.split('username=')[1]
+        var myUser = location.search.split('username=')[1];
         data.append( "username", myUser);
 
         request.send( data );
 
         //redirect
-        window.location.replace("/login_rhythm/"));
+        window.location.replace("/login_rhythm/");
       }
     }
   </script>
