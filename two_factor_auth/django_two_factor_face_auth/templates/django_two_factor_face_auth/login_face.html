@@ -92,13 +92,13 @@ html {
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" name="username" placeholder="Username..." class="form-control">
+              <input id="username" type="text" name="username" placeholder="Username..." class="form-control">
             </div>
             <div class="input-group mb-2">
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fas fa-key"></i></span>
               </div>
-                <input type="password" name="password" placeholder="Password..." class="form-control" >
+                <input id="password" type="password" name="password" placeholder="Password..." class="form-control" >
             </div>
           </form>
 
@@ -219,7 +219,10 @@ function submitSnapshot() {
       data.append( "image", imageData, "myimage" );
 
       data.append( "username", document.getElementById( "username" ).value);
+
       data.append( "password", document.getElementById( "password" ).value);
+
+
 
       request.onload = function () {
         if (request.readyState === request.DONE) {
@@ -233,7 +236,6 @@ function submitSnapshot() {
           }
         }
       };
-
       request.send( data );
 
       // redirect
